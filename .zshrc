@@ -67,6 +67,8 @@ zplug "zsh-users/zsh-history-substring-search", as: plugin, defer:3
 
 zplug load --verbose
 
+
+
 # -----------------------------------
 # *** FZF ***
 # -----------------------------------
@@ -190,7 +192,17 @@ alias grs='git remote show'
 alias glo='git log --pretty="oneline"'
 alias glol='git log --graph --oneline --decorate'
 
-# Load the shell dotfiles, and then some:
+# -----------------------------------
+# *** Sourcing ***
+# -----------------------------------
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+# -----------------------------------
+# *** User extra ***
+# -----------------------------------
 
 USER_FILE=~/.zshrc-user
 if [[ -f $USER_FILE ]]; then
