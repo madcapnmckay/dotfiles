@@ -1,0 +1,119 @@
+[init]
+    defaultBranch = main
+
+[include]
+    path = ~/.gitaliases
+
+[alias]
+    continue = "-c core.editor=true rebase --continue"
+	undo = !git reset && git reset --hard && git clean -fd
+	cleanup = !git clean -fd
+	twig = !git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) [%(color:red)%(objectname:short)%(color:reset)] %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))'
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = auto
+[color "branch"]
+    current = green bold
+    local = green
+    remote = red bold
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green bold
+    changed = yellow bold
+    untracked = red
+[color "sh"]
+    branch = yellow
+
+[pull]
+    rebase = true
+[push]
+    # push will only do the current branch, not all branches
+    default = current
+[branch]
+    # set up 'git pull' to rebase instead of merge
+    autosetuprebase = always
+
+
+# Use `origin` as the default remote on the `master` branch in all cases
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+
+# Use `origin` as the default remote on the `main` branch in all cases
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[rebase]
+    autoStash = true
+
+[core]
+	editor = code --wait
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
+
+
+# delta detects terminal colors automatically; set one of these to disable auto-detection
+# dark = true
+# light = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+
+# [diff]
+# 	tool = Kaleidoscope
+
+# [difftool "Kaleidoscope"]
+# 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+# [difftool]
+# 	prompt = false
+# 	trustExitCode = true
+
+# [merge]
+# 	tool = bc
+
+# [mergetool "bc"]
+# 	trustExitCode = true
+
+# [mergetool]
+# 	prompt = false
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[credential]
+    helper = osxkeychain
+
+[includeIf "gitdir:~/work/"]
+	path = ~/work/.gitconfig-work
+[includeIf "gitdir:~/oss/"]
+	path = ~/oss/.gitconfig-oss
+[user]
+	name = Ian Mckay
+	email = ian@avastmehearties.com
