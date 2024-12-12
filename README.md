@@ -7,7 +7,7 @@ Create SSH key
 ```bash
 ssh-keygen -t ed25519 -C "<<WORK_EMAIL>/<<COMPUTER_NAME>>" -f ~/.ssh/id_work
 <USE A PASSPHRASE>
-ssh-keygen -t ed25519 -C "<<WORK_EMAIL>>>/<<COMPUTER_NAME>>" -f ~/.ssh/id_oss
+ssh-keygen -t ed25519 -C "<<PERSONAL_EMAIL>>>/<<COMPUTER_NAME>>" -f ~/.ssh/id_oss
 
 open ~/.ssh/config
 ```
