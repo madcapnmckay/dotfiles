@@ -70,16 +70,17 @@ INSTALL_DIR=$HOME/.config
 echo
 echo "This script will setup the machine with the following settings:"
 echo "User Name: $NAME"
-echo "User Name: $MACHINE_NAME"
-echo
+echo "Machine Name: $MACHINE_NAME"
+echo ""
 echo "Work Email: $WORK_EMAIL"
 echo "Work Dir: $WORK_PATH"
-echo
+echo ""
 echo "OSS Email: $OSS_EMAIL"
 echo "OSS Dir: $OSS_PATH"
-echo
+echo ""
 read -rp "Is this correct? [y/n]: " -n 1 user_input
-echo 
+echo ""
+
 if [[ $user_input == "y" || $user_input == "Y" ]]; then
     echo "You confirmed yes."
 else
@@ -104,43 +105,6 @@ git config -f "$WORK_PATH/.gitconfig-work" core.sshCommand "ssh -i ~/.ssh/id_wor
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.name "${name:-$defaultName}"
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.email "${ossemail:-$defaultEmail}"
 git config -f "$WORK_PATH/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
-
-# -----------------------------------
-# *** xCode ***
-# -----------------------------------
-
-# This installs git which can then be used to clone the dotfiles repo, we can then install a new git via brew
-if [[ "$(uname)" == "Darwin" ]]; then
-    echo "macOS detected..."
-
-    if xcode-select -p &>/dev/null; then
-        echo "Xcode already installed"
-    else
-        echo "Installing commandline tools..."
-        xcode-select --install
-    fi
-fi
-
-# -----------------------------------
-# *** dotFiles ***
-# -----------------------------------
-
-# Pull down dotFiles
-# See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
-echo "$DOTFILES_FOLDER" >> .gitignore
-
-if [ -d "$DOTFILES_PATH" ]; then
-	echo "Updating $DOTFILES_FOLDER"
-	git pull
-else
-	echo "Creating $DOTFILES_FOLDER"
-	git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_PATH
-fi
-
-## Define the alias in the current shell scope:
-alias dotfiles='/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME'
-## Checkout the dotfiles
-dotfiles checkout
 
 # -----------------------------------
 # *** Homebrew ***
@@ -190,6 +154,27 @@ brew install --cask font-monaspace-nerd-font
 brew install --cask docker
 brew install --cask warp
 brew install --cask tuple
+
+# -----------------------------------
+# *** dotFiles ***
+# -----------------------------------
+
+# Pull down dotFiles
+# See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
+echo "$DOTFILES_FOLDER" >> .gitignore
+
+if [ -d "$DOTFILES_PATH" ]; then
+	echo "Updating $DOTFILES_FOLDER"
+	git pull
+else
+	echo "Creating $DOTFILES_FOLDER"
+	git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_PATH
+fi
+
+## Define the alias in the current shell scope:
+alias dotfiles='/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME'
+## Checkout the dotfiles
+dotfiles checkout
 
 # -----------------------------------
 # *** FZF ***
