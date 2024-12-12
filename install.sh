@@ -168,11 +168,15 @@ brew install --cask tuple
 
 # Pull down dotFiles
 # See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
-echo "$DOTFILES_FOLDER" >> .gitignore
+# echo "$DOTFILES_FOLDER" >> .gitignore
+
+function dotfiles() {
+    /usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME
+}
 
 if [ -d "$DOTFILES_PATH" ]; then
 	echo "Updating $DOTFILES_FOLDER"
-	git pull
+	dotfiles pull
 else
 	echo "Creating $DOTFILES_FOLDER"
 	git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_PATH
@@ -181,7 +185,7 @@ fi
 ## Define the alias in the current shell scope:
 alias dotfiles='/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME'
 ## Checkout the dotfiles
-/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME checkout
+dotfiles checkout
 
 # -----------------------------------
 # *** FZF ***
