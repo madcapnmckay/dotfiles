@@ -1,6 +1,11 @@
 #!/bin/bash
 
 # Install Configuration file path, used to store user input in the event of multiple runs
+DOTFILES_INSTALL="$HOME/.dotfiles-install"
+DOTFILES_TMP="$DOTFILES_INSTALL/tmp"
+
+mkdir -p $DOTFILES_TMP
+
 CONFIG_FILE=~/.dotfiles-install-config
 PWD=$(pwd)
 
@@ -86,6 +91,12 @@ if [[ $user_input == "y" || $user_input == "Y" ]]; then
 else
     exit 1
 fi
+
+## Backup Previous files to avoid conflicts when checking out
+echo "Backing up existing dotfiles"
+mv --force .zprofile "$DOTFILES_TMP/.zprofile"
+mv --force .zshrc "$DOTFILES_TMP/.zshrc"
+mv --force .gitignore "$DOTFILES_TMP/.gitignore"
 
 sudo scutil --set HostName $MACHINE_NAME.local
 sudo scutil --set LocalHostName $MACHINE_NAME
@@ -181,12 +192,6 @@ else
 	echo "Creating $DOTFILES_FOLDER"
 	git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_PATH
 fi
-
-## Backup Previous files to avoid conflicts when checking out
-
-mkdir -p .config-backup && \
-dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
-xargs -I{} mv {} .config-backup/{}
 
 ## Checkout the dotfiles
 dotfiles checkout
