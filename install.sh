@@ -171,7 +171,7 @@ brew install --cask tuple
 echo "$DOTFILES_FOLDER" >> .gitignore
 
 function dotfiles() {
-    /usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME
+    /usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME "$@" 
 }
 
 if [ -d "$DOTFILES_PATH" ]; then
