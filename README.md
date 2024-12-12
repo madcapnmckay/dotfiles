@@ -27,6 +27,12 @@ ssh-add --apple-use-keychain ~/.ssh/id_oss
 ssh-add --apple-use-keychain ~/.ssh/id_work
 ```
 
+Copy the public keys into the appropriate sites.
+
+```bash
+pbcopy < ~/.ssh/id_oss.pub
+```
+
 ## Installation
 
 ```bash
