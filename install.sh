@@ -114,7 +114,7 @@ git config -f "$WORK_PATH/.gitconfig-work" core.sshCommand "ssh -i ~/.ssh/id_wor
 
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.name "${name:-$defaultName}"
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.email "${ossemail:-$defaultEmail}"
-git config -f "$WORK_PATH/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
+git config -f "$OSS_FOLDER/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
 
 # -----------------------------------
 # *** Homebrew ***
