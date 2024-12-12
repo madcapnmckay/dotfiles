@@ -109,9 +109,17 @@ git config -f "$WORK_PATH/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
 # -----------------------------------
 # *** Homebrew ***
 # -----------------------------------
+if test ! $(which brew); then
+  echo "Installing Brew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo >> ~/.zprofile
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
-echo "Installing Brew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo "Updating homebrew..."
+brew update
+
 brew analytics off
 
 # ** Formulae **
@@ -174,7 +182,7 @@ fi
 ## Define the alias in the current shell scope:
 alias dotfiles='/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME'
 ## Checkout the dotfiles
-dotfiles checkout
+/usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME checkout
 
 # -----------------------------------
 # *** FZF ***
