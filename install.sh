@@ -70,7 +70,6 @@ DOTFILES_FOLDER=".dotfiles"
 DOTFILES_PATH="$HOME/$DOTFILES_FOLDER"
 WORK_PATH="$HOME/$WORK_FOLDER"
 OSS_PATH="$HOME/$OSS_FOLDER"
-INSTALL_DIR=$HOME/.config
 
 echo
 echo "This script will setup the machine with the following settings:"
@@ -200,15 +199,15 @@ dotfiles checkout
 # *** FZF ***
 # -----------------------------------
 
-mkdir -p $INSTALL_DIR
+mkdir -p $DOTFILES_INSTALL
 
-if [ -d "$INSTALL_DIR/fzf-git.sh" ]; then
+if [ -d "$DOTFILES_INSTALL/fzf-git.sh" ]; then
 	echo "Updating fzf-git"
-    cd $INSTALL_DIR/fzf-git.sh
+    cd $DOTFILES_INSTALL/fzf-git.sh
 	git pull
 else
 	echo "Cloning fzf-git"
-    cd $INSTALL_DIR
+    cd $DOTFILES_INSTALL
 	git clone https://github.com/junegunn/fzf-git.sh.git
 fi
 
