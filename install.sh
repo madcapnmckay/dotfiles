@@ -128,7 +128,6 @@ echo "Installing Brew Formulae..."
 brew install git
 brew install bash
 brew install git-lfs
-brew install curl
 brew install wget
 brew install mas
 brew install fzf
