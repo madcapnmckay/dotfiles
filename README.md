@@ -72,5 +72,5 @@ dotfiles add .zshrc
 # add other files
 dotfiles commit -m 'Commit message'
 dotfiles remote add origin git@github.com:madcapnmckay/dotfiles.git
-dotfiles push
+dotfiles push origin main --force
 ```
