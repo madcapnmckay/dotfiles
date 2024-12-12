@@ -94,9 +94,9 @@ fi
 
 ## Backup Previous files to avoid conflicts when checking out
 echo "Backing up existing dotfiles"
-mv --force .zprofile "$DOTFILES_TMP/.zprofile"
-mv --force .zshrc "$DOTFILES_TMP/.zshrc"
-mv --force .gitignore "$DOTFILES_TMP/.gitignore"
+mv -f .zprofile "$DOTFILES_TMP/.zprofile" 2> /dev/null
+mv -f .zshrc "$DOTFILES_TMP/.zshrc" 2> /dev/null
+mv -f .gitignore "$DOTFILES_TMP/.gitignore" 2> /dev/null
 
 sudo scutil --set HostName $MACHINE_NAME.local
 sudo scutil --set LocalHostName $MACHINE_NAME
