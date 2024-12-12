@@ -8,6 +8,7 @@ Create SSH key
 ssh-keygen -t ed25519 -C "<<WORK_EMAIL>/<<COMPUTER_NAME>>" -f ~/.ssh/id_work
 <USE A PASSPHRASE>
 ssh-keygen -t ed25519 -C "<<PERSONAL_EMAIL>>>/<<COMPUTER_NAME>>" -f ~/.ssh/id_oss
+<USE A PASSPHRASE>
 
 open ~/.ssh/config
 ```
@@ -29,7 +30,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_work
 ## Installation
 
 ```bash
-curl https://github.netflix.net/raw/imckay/dotfiles/main/install.sh?token=GHSAT0AAAAAAAAAOLDGC5Y56IBFO6PFJYJKZ3A3XFA | bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/madcapnmckay/dotfiles/refs/heads/main/install.sh)"
 ```
 
 # VSCode Settings
