@@ -1,8 +1,9 @@
 #!/bin/bash
 
-mkdir -p "$HOME/.config"
-
+ZDOTDIR=~/.config/zsh
 CONFIG_FILE=~/.dotfiles-install-config
+
+mkdir -p "$HOME/.config"
 
 # -----------------------------------
 # *** User Input ***
@@ -84,13 +85,12 @@ else
     exit 1
 fi
 
-
 # -----------------------------------
 # *** Backup Previous files to avoid conflicts when checking out ***
 # -----------------------------------
 
 echo "Backing up existing dotfiles"
-setopt extended_glob
+shopt -s extglob
 zfiles=(
   ${ZDOTDIR:-~}/.zsh*(.N)
   ${ZDOTDIR:-~}/.zlog*(.N)
