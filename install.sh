@@ -272,7 +272,7 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Settings > advanced > show all filename extensions
 defaults write .GlobalPreferences AppleShowAllExtensions -bool true
 
-chmod go-w '$(brew --prefix)/share'
-chmod -R go-w '$(brew --prefix)/share/zsh'
+chmod go-w $(brew --prefix)/share
+chmod -R go-w $(brew --prefix)/share/zsh
 
 echo "dotfiles setup complete!"
