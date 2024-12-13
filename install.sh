@@ -1,13 +1,8 @@
 #!/bin/bash
 
-# Install Configuration file path, used to store user input in the event of multiple runs
-DOTFILES_INSTALL="$HOME/.dotfiles-install"
-DOTFILES_TMP="$DOTFILES_INSTALL/tmp"
-
-mkdir -p $DOTFILES_TMP
+mkdir -p "$HOME/.config"
 
 CONFIG_FILE=~/.dotfiles-install-config
-PWD=$(pwd)
 
 # -----------------------------------
 # *** User Input ***
@@ -66,8 +61,6 @@ OSS_EMAIL="$OSS_EMAIL"
 OSS_FOLDER="$OSS_FOLDER"
 EOF
 
-DOTFILES_FOLDER=".dotfiles"
-DOTFILES_PATH="$HOME/$DOTFILES_FOLDER"
 WORK_PATH="$HOME/$WORK_FOLDER"
 OSS_PATH="$HOME/$OSS_FOLDER"
 
@@ -86,16 +79,41 @@ read -rp "Is this correct? [y/n]: " -n 1 user_input
 echo ""
 
 if [[ $user_input == "y" || $user_input == "Y" ]]; then
-    echo "You confirmed yes."
+    echo "Beginning install."
 else
     exit 1
 fi
 
-## Backup Previous files to avoid conflicts when checking out
+
+# -----------------------------------
+# *** Backup Previous files to avoid conflicts when checking out ***
+# -----------------------------------
+
 echo "Backing up existing dotfiles"
-mv -f .zprofile "$DOTFILES_TMP/.zprofile" 2> /dev/null
-mv -f .zshrc "$DOTFILES_TMP/.zshrc" 2> /dev/null
-mv -f .gitignore "$DOTFILES_TMP/.gitignore" 2> /dev/null
+setopt extended_glob
+zfiles=(
+  ${ZDOTDIR:-~}/.zsh*(.N)
+  ${ZDOTDIR:-~}/.zlog*(.N)
+  ${ZDOTDIR:-~}/.zprofile(.N)
+)
+mkdir -p ~/.bak
+for zfile in $zfiles; do
+  mv $zfile ~/.bak 2> /dev/null
+done
+unset zfile zfiles
+
+# change the root .zshenv file to use ZDOTDIR
+cat << 'EOF' >| ~/.zshenv
+export XDG_CONFIG_HOME="$HOME/.config"
+export ZDOTDIR="$HOME/.config/zsh"
+[[ -f $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
+EOF
+
+source ~/.zshenv
+
+# -----------------------------------
+# *** Machine Properties ***
+# -----------------------------------
 
 sudo scutil --set HostName $MACHINE_NAME.local
 sudo scutil --set LocalHostName $MACHINE_NAME
@@ -122,14 +140,11 @@ git config -f "$OSS_FOLDER/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss
 if test ! $(which brew); then
   echo "Installing Brew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo >> ~/.zprofile
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 echo "Updating homebrew..."
 brew update
-
 brew analytics off
 
 # ** Formulae **
@@ -155,7 +170,6 @@ brew install tmux
 
 brew install starship
 
-brew install zplug
 brew install zsh-completions
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
@@ -173,23 +187,21 @@ brew install --cask warp
 brew install --cask tuple
 
 # -----------------------------------
-# *** dotFiles ***
+# *** Pull down dotFiles ***
+# See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
 # -----------------------------------
 
-# Pull down dotFiles
-# See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
-echo "$DOTFILES_FOLDER" >> .gitignore
-
+# function to act as an alias
 function dotfiles() {
-    /usr/bin/git --git-dir=$DOTFILES_PATH --work-tree=$HOME "$@" 
+    /usr/bin/git --git-dir=$DOTFILES_HOME --work-tree=$HOME "$@" 
 }
 
-if [ -d "$DOTFILES_PATH" ]; then
-	echo "Updating $DOTFILES_FOLDER"
-	dotfiles pull
+if [ -d "$DOTFILES_HOME" ]; then
+  echo "Updating $DOTFILES_HOME"
+  dotfiles pull
 else
-	echo "Creating $DOTFILES_FOLDER"
-	git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_PATH
+  echo "Creating $DOTFILES_HOME"
+  git clone --bare git@github.com:madcapnmckay/dotfiles.git $DOTFILES_HOME
 fi
 
 ## Checkout the dotfiles
@@ -198,20 +210,17 @@ dotfiles checkout
 # -----------------------------------
 # *** FZF ***
 # -----------------------------------
-
-mkdir -p $DOTFILES_INSTALL
-
-if [ -d "$DOTFILES_INSTALL/fzf-git.sh" ]; then
-	echo "Updating fzf-git"
-    cd $DOTFILES_INSTALL/fzf-git.sh
-	git pull
+if [ -d "$XDG_CONFIG_HOME/fzf-git.sh" ]; then
+  echo "Updating fzf-git"
+  cd $XDG_CONFIG_HOME/fzf-git.sh
+  git pull
 else
-	echo "Cloning fzf-git"
-    cd $DOTFILES_INSTALL
-	git clone https://github.com/junegunn/fzf-git.sh.git
+  echo "Cloning fzf-git"
+  cd $XDG_CONFIG_HOME
+  git clone https://github.com/junegunn/fzf-git.sh.git
 fi
 
-cd "$PWD"
+cd "$HOME"
 
 # -----------------------------------
 # *** Bat (Better cat) ***
@@ -264,5 +273,7 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Settings > advanced > show all filename extensions
 defaults write .GlobalPreferences AppleShowAllExtensions -bool true
 
+chmod go-w '$(brew --prefix)/share'
+chmod -R go-w '$(brew --prefix)/share/zsh'
 
-echo "Dotfiles setup complete!"
+echo "dotfiles setup complete!"

@@ -1,6 +1,12 @@
+node_modules/
+.DS_Store
+
 .dotfiles
 .gitconfig-oss
 .gitconfig-work
 
-node_modules/
-.DS_Store
+.zsh_sessions
+.zsh_history
+.zcompdump
+.zcompcache
+
