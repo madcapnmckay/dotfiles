@@ -215,6 +215,7 @@ else
   echo "Cloning fzf-git"
   cd $XDG_CONFIG_HOME
   git clone https://github.com/junegunn/fzf-git.sh.git
+  dotfiles config --local status.showUntrackedFiles no
 fi
 
 cd "$HOME"
@@ -233,6 +234,7 @@ bat cache --build
 # -----------------------------------
 brew install nvm
 mkdir -p ~/.nvm
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 nvm install --lts
 
 csrutil status
