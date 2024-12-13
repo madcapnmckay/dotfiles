@@ -187,6 +187,7 @@ brew install --cask tuple
 # See https://www.ackama.com/articles/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/
 # -----------------------------------
 
+DOTFILES_HOME="$HOME/.dotfiles"
 # function to act as an alias
 function dotfiles() {
     /usr/bin/git --git-dir=$DOTFILES_HOME --work-tree=$HOME "$@" 
