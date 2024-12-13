@@ -91,11 +91,7 @@ fi
 
 echo "Backing up existing dotfiles"
 shopt -s extglob
-zfiles=(
-  ${ZDOTDIR:-~}/.zsh*(.N)
-  ${ZDOTDIR:-~}/.zlog*(.N)
-  ${ZDOTDIR:-~}/.zprofile(.N)
-)
+zfiles=(${ZDOTDIR:-~}/.zsh* ${ZDOTDIR:-~}/.zlog* ${ZDOTDIR:-~}/.zprofile)
 mkdir -p ~/.bak
 for zfile in $zfiles; do
   mv $zfile ~/.bak 2> /dev/null
