@@ -127,8 +127,8 @@ This acts as a pass through for git checkout but will prefix all branch names wi
 git init --bare $HOME/.dotfiles --initial-branch=main
 
 dotfiles config --local status.showUntrackedFiles no
-dotfiles config --local user.name "Ian Mckay"
-dotfiles config --local user.email "ian@avastmehearties.com"
+dotfiles config --local user.name "YOUR NAME"
+dotfiles config --local user.email "YOUR EMAIL ADDRESS"
 dotfiles config --local core.sshCommand "ssh -i ~/.ssh/id_oss"
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
