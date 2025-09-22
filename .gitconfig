@@ -1,3 +1,10 @@
+##### BEGIN METATRON AUTOCONFIG
+# Do not remove the above line. The metatron CLI uses it to update this file.
+# Set git proxy configuration (must be the first directive in this file)
+[include]
+    path = /Users/imckay/.gitconfig-proxy
+# Do not remove the below line. The metatron CLI uses it to update this file.
+##### END METATRON AUTOCONFIG
 [init]
     defaultBranch = main
 
@@ -5,10 +12,18 @@
     path = ~/.gitaliases
 
 [alias]
+    # identify the main/master branch name, used in other alias
+    main-branch = !git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4
+    remote-head = remote set-head origin --auto
+    main = "!f(){ git checkout $(git main-branch) $@;}; f"
+    pull-main = "!f(){ git pull --rebase --autostash origin $(git main-branch) $@;}; f"
+    rebase-main = "!f(){ git rebase -i --autosquash origin/$(git main-branch) --no-verify $@;}; f"
     continue = "-c core.editor=true rebase --continue"
 	undo = !git reset && git reset --hard && git clean -fd
 	cleanup = !git clean -fd
+    # list branches ordered by most recent commit
 	twig = !git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) [%(color:red)%(objectname:short)%(color:reset)] %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))'
+	leaf = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %C(bold blue)<%an> %Cgreen(%cr)%Creset' --abbrev-commit
 
 [color]
     diff = auto
@@ -35,8 +50,9 @@
 [pull]
     rebase = true
 [push]
+    autosetupremote = true
     # push will only do the current branch, not all branches
-    default = current
+    default = upstream
 [branch]
     # set up 'git pull' to rebase instead of merge
     autosetuprebase = always
@@ -60,8 +76,9 @@
     autoStash = true
 
 [core]
-	editor = code --wait
+	editor = code --wait --new-window
     pager = delta
+	excludesFile = ~/.gitignore-global
 
 [interactive]
     diffFilter = delta --color-only
@@ -70,17 +87,14 @@
     navigate = true    # use n and N to move between diff sections
     side-by-side = true
 
-
-# delta detects terminal colors automatically; set one of these to disable auto-detection
-# dark = true
-# light = true
-
-[merge]
-    conflictstyle = diff3
-
 [diff]
-    colorMoved = default
-
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+    tool = code
+[mergetool "code"]
+    cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 
 # [diff]
 # 	tool = Kaleidoscope
@@ -110,10 +124,10 @@
 [credential]
     helper = osxkeychain
 
-[includeIf "gitdir:~/work/"]
-	path = ~/work/.gitconfig-work
-[includeIf "gitdir:~/oss/"]
-	path = ~/oss/.gitconfig-oss
-[user]
-	name = Ian Mckay
-	email = ian@avastmehearties.com
+[includeIf "gitdir:~/dev/work/"]
+	path = ~/dev/work/.gitconfig-work
+[includeIf "gitdir:~/dev/oss/"]
+	path = ~/dev/oss/.gitconfig-oss
+
+[http]
+	postBuffer = 536870912

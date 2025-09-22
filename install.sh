@@ -20,6 +20,7 @@ else
     WORK_FOLDER="dev/work"
     OSS_EMAIL=""
     OSS_FOLDER="dev/oss"
+    GITHUB_URL="github.netflix.net"
 fi
 
 # Function to construct the prompt with optional default
@@ -126,8 +127,8 @@ git config -f "$WORK_PATH/.gitconfig-work" user.name "${NAME}"
 git config -f "$WORK_PATH/.gitconfig-work" user.email "${WORK_EMAIL}"
 git config -f "$WORK_PATH/.gitconfig-work" core.sshCommand "ssh -i ~/.ssh/id_work"
 
-git config -f "$OSS_FOLDER/.gitconfig-oss" user.name "${name:-$defaultName}"
-git config -f "$OSS_FOLDER/.gitconfig-oss" user.email "${ossemail:-$defaultEmail}"
+git config -f "$OSS_FOLDER/.gitconfig-oss" user.name "${NAME}"
+git config -f "$OSS_FOLDER/.gitconfig-oss" user.email "${OSS_EMAIL}"
 git config -f "$OSS_FOLDER/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
 
 # -----------------------------------
@@ -147,6 +148,9 @@ brew analytics off
 echo "Installing Brew Formulae..."
 
 brew install git
+brew install gh
+brew install yarn
+brew install pnpm
 brew install bash
 brew install git-lfs
 brew install wget
@@ -157,7 +161,6 @@ brew install git-delta
 brew install fd
 brew install eza
 brew install zoxide
-brew install mas
 brew install alt-tab
 brew install watchman
 brew install tldr
@@ -172,15 +175,26 @@ brew install zsh-syntax-highlighting
 brew install zsh-history-substring-search
 
 # ** Casks **
+brew install --cask visual-studio-code
+brew install --cask docker
+brew install --cask tuple
+brew install --cask google-drive
+brew install --cask zoom
 
 brew install --cask raycast
 brew install --cask hiddenbar
 brew install --cask stats
 brew install --cask karabiner-elements
 brew install --cask font-monaspace-nerd-font
-brew install --cask docker
-brew install --cask warp
-brew install --cask tuple
+brew install --cask wezterm
+brew install --cask ghostty
+brew install --cask fantastical
+brew install --cask spotify
+brew install --cask dropbox
+brew install --cask nikitabobko/tap/aerospace
+
+# Setup Github Enterprise CLI tools
+gh auth login -p https -h $GITHUB_URL -w
 
 # -----------------------------------
 # *** Pull down dotFiles ***
@@ -226,7 +240,7 @@ cd "$HOME"
 
 mkdir -p "$(bat --config-dir)/themes"
 cd "$(bat --config-dir)/themes"
-curl -O https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_night.tmTheme
+wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
 bat cache --build
 
 # -----------------------------------
@@ -258,6 +272,14 @@ defaults write com.apple.dock autohide -bool true
 defaults write com.apple.Dock autohide-delay -float 0
 # disable delay before animating the Dock hiding
 defaults write com.apple.dock autohide-time-modifier -int 0
+# disable gaps between tiled windows
+defaults write com.apple.dock tile-windows-have-margins -bool false
+# disable mission control
+defaults write com.apple.dock expose-group-apps -bool true && killall Dock
+# disable displays having separate spaces
+defaults write com.apple.spaces spans-displays -bool true && killall SystemUIServer
+
+defaults write com.apple.doc mineffect -string "scale"
 
 # ** Finder **
 
@@ -271,6 +293,8 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Settings > advanced > show all filename extensions
 defaults write .GlobalPreferences AppleShowAllExtensions -bool true
+
+killall Dock
 
 chmod go-w $(brew --prefix)/share
 chmod -R go-w $(brew --prefix)/share/zsh

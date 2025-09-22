@@ -2,11 +2,13 @@ node_modules/
 .DS_Store
 
 .dotfiles
-.gitconfig-oss
-.gitconfig-work
+dev/**/.gitconfig-*
 
-.zsh_sessions
-.zsh_history
-.zcompdump
-.zcompcache
+**/*
+!.config/**
+!.vscode/**
+!.gitconfig
+!README.md
+!install.sh
 
+.worktrees
