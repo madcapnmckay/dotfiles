@@ -50,8 +50,13 @@ WORK_FOLDER=${input:-$WORK_FOLDER}
 read -rp "$(prompt_with_default "Enter work personal address, to be used for work github, stash etc" "$OSS_EMAIL")" input
 OSS_EMAIL=${input:-$OSS_EMAIL}
 
+read -rp "$(prompt_with_default "Enter the url of your github enterprise instance" "$GITHUB_URL")" input
+GITHUB_URL=${input:-$GITHUB_URL}
+
 read -rp "$(prompt_with_default "Enter folder in which to save open source/personal code in HOME" "$OSS_FOLDER")" input
 OSS_FOLDER=${input:-$OSS_FOLDER}
+
+
 
 # Save the current values to the config file
 cat <<EOF > $CONFIG_FILE
@@ -61,6 +66,7 @@ WORK_EMAIL="$WORK_EMAIL"
 WORK_FOLDER="$WORK_FOLDER"
 OSS_EMAIL="$OSS_EMAIL"
 OSS_FOLDER="$OSS_FOLDER"
+GITHUB_URL="$GITHUB_URL"
 EOF
 
 WORK_PATH="$HOME/$WORK_FOLDER"
@@ -123,6 +129,10 @@ sudo scutil --set ComputerName $MACHINE_NAME
 mkdir -p $WORK_PATH
 mkdir -p $OSS_PATH
 
+git config --global --add include.path ~/.gitconfig-user
+git config --global includeIf."gitdir:~/dev/work/".path ~/dev/work/.gitconfig-work
+git config --global includeIf."gitdir:~/dev/oss/".path ~/dev/work/.gitconfig-work
+
 git config -f "$WORK_PATH/.gitconfig-work" user.name "${NAME}"
 git config -f "$WORK_PATH/.gitconfig-work" user.email "${WORK_EMAIL}"
 git config -f "$WORK_PATH/.gitconfig-work" core.sshCommand "ssh -i ~/.ssh/id_work"
@@ -130,6 +140,7 @@ git config -f "$WORK_PATH/.gitconfig-work" core.sshCommand "ssh -i ~/.ssh/id_wor
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.name "${NAME}"
 git config -f "$OSS_FOLDER/.gitconfig-oss" user.email "${OSS_EMAIL}"
 git config -f "$OSS_FOLDER/.gitconfig-oss" core.sshCommand "ssh -i ~/.ssh/id_oss"
+
 
 # -----------------------------------
 # *** Homebrew ***
@@ -188,7 +199,6 @@ brew install --cask karabiner-elements
 brew install --cask font-monaspace-nerd-font
 brew install --cask wezterm
 brew install --cask ghostty
-brew install --cask fantastical
 brew install --cask spotify
 brew install --cask dropbox
 brew install --cask nikitabobko/tap/aerospace

@@ -1,0 +1,89 @@
+[init]
+    defaultBranch = main
+
+[include]
+    path = ~/.config/git/.gitaliases
+
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = auto
+[color "branch"]
+    current = green bold
+    local = green
+    remote = red bold
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green bold
+    changed = yellow bold
+    untracked = red
+[color "sh"]
+    branch = yellow
+
+[pull]
+    rebase = true
+[push]
+    autosetupremote = true
+    # push will only do the current branch, not all branches
+    default = upstream
+[branch]
+    # set up 'git pull' to rebase instead of merge
+    autosetuprebase = always
+
+
+# Use `origin` as the default remote on the `master` branch in all cases
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+
+# Use `origin` as the default remote on the `main` branch in all cases
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[rebase]
+    autoStash = true
+
+[core]
+	editor = code --wait --new-window
+    pager = delta
+	excludesFile = ~/.gitignore-global
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
+
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+    tool = code
+[mergetool "code"]
+    cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[credential]
+    helper = osxkeychain
+
+[http]
+	postBuffer = 536870912
