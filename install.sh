@@ -187,7 +187,8 @@ brew install zsh-syntax-highlighting
 brew install zsh-history-substring-search
 
 # ** Casks **
-brew install --cask visual-studio-code
+# brew install --cask visual-studio-code
+brew install --cask cursor
 brew install --cask docker
 brew install --cask tuple
 brew install --cask google-drive

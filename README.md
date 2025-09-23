@@ -61,11 +61,7 @@ pbcopy < ~/.ssh/id_oss.pub
 
 ## Key Binding
 
-## Fantasical
-
-- <kbd>CTRL-D</kbd> Show mini calendar window
-
-## VSCode
+## VSCode/Cursor
 
 - <kbd>CTRL-Tab</kbd> => Show all open files
 
