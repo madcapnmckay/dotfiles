@@ -12,3 +12,5 @@
 	path = /Users/imckay/dev/work/.gitconfig-work
 [includeIf "gitdir:~/dev/oss/"]
 	path = /Users/imckay/dev/oss/.gitconfig-oss
+[user]
+	name = Ian Mckay

@@ -2,7 +2,10 @@
 
 export XDG_CONFIG_HOME=$HOME/.config
 
-# Make VSCode the default editor
+# Editor alias
+alias code="cursor"
+
+# Set the default editor
 export EDITOR="code"
 export VISUAL="code"
 

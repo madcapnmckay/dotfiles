@@ -129,9 +129,10 @@ sudo scutil --set ComputerName $MACHINE_NAME
 mkdir -p $WORK_PATH
 mkdir -p $OSS_PATH
 
+git config --global user.name "${NAME}"
 git config --global --add include.path ~/.gitconfig-user
 git config --global includeIf."gitdir:~/dev/work/".path ~/dev/work/.gitconfig-work
-git config --global includeIf."gitdir:~/dev/oss/".path ~/dev/work/.gitconfig-work
+git config --global includeIf."gitdir:~/dev/oss/".path ~/dev/oss/.gitconfig-oss
 
 git config -f "$WORK_PATH/.gitconfig-work" user.name "${NAME}"
 git config -f "$WORK_PATH/.gitconfig-work" user.email "${WORK_EMAIL}"
