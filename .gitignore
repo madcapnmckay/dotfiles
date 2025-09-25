@@ -11,5 +11,6 @@ dev/**/.gitconfig-*
 !.gitconfig
 !README.md
 !install.sh
+!scripts/**
 
 .worktrees

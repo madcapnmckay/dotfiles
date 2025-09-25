@@ -1,0 +1,16 @@
+##### BEGIN METATRON AUTOCONFIG
+# Do not remove the above line. The metatron CLI uses it to update this file.
+# Set git proxy configuration (must be the first directive in this file)
+[include]
+    path = /Users/imckay/.gitconfig-proxy
+# Do not remove the below line. The metatron CLI uses it to update this file.
+##### END METATRON AUTOCONFIG
+
+[include]
+    path = ~/.config/git/.gitconfig-user
+[includeIf "gitdir:~/dev/work/"]
+	path = /Users/imckay/dev/work/.gitconfig-work
+[includeIf "gitdir:~/dev/oss/"]
+	path = /Users/imckay/dev/oss/.gitconfig-oss
+[user]
+	name = Ian Mckay

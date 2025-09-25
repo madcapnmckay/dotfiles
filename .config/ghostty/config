@@ -28,9 +28,5 @@ keybind = ctrl+alt+down=new_split:down
 keybind = ctrl+alt+left=new_split:left
 keybind = ctrl+alt+right=new_split:right
 
-keybind = cmd+alt+up=goto_split:top
-keybind = cmd+alt+down=goto_split:bottom
-keybind = cmd+alt+left=goto_split:left
-keybind = cmd+alt+right=goto_split:right
-keybind = cmd+alt+shift+right=goto_split:next
-keybind = cmd+alt+shift+left=goto_split:previous
+keybind = cmd+shift+left=text:\x1b[1;2H
+keybind = cmd+shift+right=text:\x1b[1;2F

@@ -25,9 +25,23 @@ config.keys = {
   { key = 'F9', mods = 'ALT', action = act.ActivatePaneByIndex(8) },
   { key = 'F10', mods = 'ALT', action = act.ActivatePaneByIndex(9) },
 
-  -- Compare this with the older syntax shown in the section below
   { key = '{', mods = 'CTRL', action = act.ActivateTabRelative(-1) },
   { key = '}', mods = 'CTRL', action = act.ActivateTabRelative(1) },
+
+  {
+    key = 'K',
+    mods = 'CMD',
+    action = act.SendKey { key = 'L', mods = 'CTRL' },
+  },
+  -- MacOS text navigation
+  { key = "LeftArrow",mods = "OPT", action = act.SendString("\x1bb") },
+  { key = "RightArrow",mods = "OPT", action = act.SendString("\x1bf") },
+  { key = "LeftArrow",mods = "CMD", action = act.SendString("\x01") },
+  { key = "RightArrow",mods = "CMD", action = act.SendString("\x05") },
+  -- Send Shift+Home and Shift+End sequences for text selection
+  { key = "LeftArrow", mods = "SHIFT|CMD", action = act.SendString("\x1b[1;2H") },
+  { key = "RightArrow", mods = "SHIFT|CMD", action = act.SendString("\x1b[1;2F") },
+  
 }
 config.debug_key_events = true
 

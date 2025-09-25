@@ -56,7 +56,7 @@
     autoStash = true
 
 [core]
-	editor = code --wait --new-window
+	editor = cursor --wait --new-window
     pager = delta
 	excludesFile = ~/.gitignore-global
 
@@ -70,11 +70,11 @@
 [diff]
     tool = default-difftool
 [difftool "default-difftool"]
-    cmd = code --wait --diff $LOCAL $REMOTE
+    cmd = cursor --wait --diff $LOCAL $REMOTE
 [merge]
-    tool = code
-[mergetool "code"]
-    cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+    tool = cursor
+[mergetool "cursor"]
+    cmd = cursor --wait --merge $REMOTE $LOCAL $BASE $MERGED
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

@@ -346,6 +346,7 @@ gwt() {
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $XDG_CONFIG_HOME/zsh-shift-select/zsh-shift-select.plugin.zsh
 
 # -----------------------------------
 # *** User extra ***

@@ -197,13 +197,15 @@ brew install --cask zoom
 brew install --cask raycast
 brew install --cask hiddenbar
 brew install --cask stats
-brew install --cask karabiner-elements
 brew install --cask font-monaspace-nerd-font
 brew install --cask wezterm
 brew install --cask ghostty
 brew install --cask spotify
 brew install --cask dropbox
-brew install --cask nikitabobko/tap/aerospace
+
+cd $XDG_CONFIG_HOME
+git clone https://github.com/jirutka/zsh-shift-select
+cd "$HOME"
 
 # Setup Github Enterprise CLI tools
 gh auth login -p https -h $GITHUB_URL -w
