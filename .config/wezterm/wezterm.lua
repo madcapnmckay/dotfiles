@@ -28,11 +28,6 @@ config.keys = {
   { key = '{', mods = 'CTRL', action = act.ActivateTabRelative(-1) },
   { key = '}', mods = 'CTRL', action = act.ActivateTabRelative(1) },
 
-  {
-    key = 'K',
-    mods = 'CMD',
-    action = act.SendKey { key = 'L', mods = 'CTRL' },
-  },
   -- MacOS text navigation
   { key = "LeftArrow",mods = "OPT", action = act.SendString("\x1bb") },
   { key = "RightArrow",mods = "OPT", action = act.SendString("\x1bf") },
